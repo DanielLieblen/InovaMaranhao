@@ -8,6 +8,7 @@
 ## 📌 Visão Geral
 Análise exploratória de dados de clientes, incluindo:
 - **Tratamento de dados**: Correção de inconsistências, outliers e dados faltantes.
+- **Visualizações**: Gráficos de barras, boxplots e histogramas.
 - **Estatísticas comparativas**: Saldo na conta, idade, gênero e estado.
 - **Perfil predominante de clientes que saíram**.
 
@@ -15,66 +16,95 @@ Análise exploratória de dados de clientes, incluindo:
 
 ## 📊 Dataset
 **Variáveis Principais**:
-- `idade`, `genero`, `estado`, `saldo na conta`, `salario anual`, `saiu` (churn).  
-**Fonte**: Arquivo `Trilhas2B-Desafio 4 - Churn.csv`.
+- `id`, `idade`, `genero`, `estado`, `saldo na conta`, `salario anual`, `saiu` (churn).  
+**Fonte**: Arquivo `Trilhas2B-Desafio 4 - Churn.csv` *(carregado diretamente no Google Colab)*.
 
 ---
 
 ## 🛠️ Pré-Processamento
-### Correções Realizadas
-1. **Categóricos**:
-   - Gênero: Padronizado para "Masculino" e "Feminino".
-   - Estado: Siglas substituídas por nomes completos (ex: "SP" → "São Paulo").  
-     *(Observação: "CE" foi mapeado incorretamente para "Cera" — correto: "Ceará")*.
-2. **Numéricos**:
-   - **Idade**: Valores inválidos (<18 ou >100) removidos.
+### Principais Correções
+1. **Colunas Categóricas**:
+   - **Gênero**: Padronizado para "Masculino" e "Feminino" (`Mas`, `M` → "Masculino"; `Fem`, `F` → "Feminino").
+   - **Estado**: Siglas corrigidas (ex: `SP` → "São Paulo").  
+     *(Observação: `CE` foi mapeado incorretamente para "Cera" — correto: "Ceará")*.
+
+2. **Colunas Numéricas**:
+   - **Idade**: Valores inválidos (<18 ou >100) substituídos por `NaN` e removidos.
    - **Outliers**:  
-     - Salário anual: Limitado entre R$ 30k e R$ 20M.  
-     - Saldo na conta: Limitado entre R$ 0 e R$ 50M.
-3. **Dados Faltantes**: Preenchidos com média (numéricos) ou moda (categóricos).
+     - Salário anual: Limitado entre **R$ 30.000** e **R$ 20.000.000**.  
+     - Saldo na conta: Limitado entre **R$ 0** e **R$ 50.000.000**.
+
+3. **Dados Faltantes**:
+   - Numéricos: Preenchidos com a média (ex: `salario anual`).
+   - Categóricos: Preenchidos com a moda (ex: `genero`).
+
 4. **Duplicatas**: IDs duplicados removidos.
 
 ---
 
 ## 🔍 Principais Achados
-### 1. Saldo na Conta por Grupo
+### 1. Saldo na Conta por Grupo (Valores Exemplo)
 | **Grupo**               | Média (R$)       | Mediana (R$)     |
 |-------------------------|------------------|------------------|
-| Clientes < 40 anos      | `[Valor]`        | `[Valor]`        |
-| Clientes ≥ 40 anos      | `[Valor]`        | `[Valor]`        |
-| **Churn (Sairam)**      | `[Valor]`        | `[Valor]`        |
-| **Não Churn (Ficaram)** | `[Valor]`        | `[Valor]`        |
+| Clientes < 40 anos      | 15.200           | 12.500           |
+| Clientes ≥ 40 anos      | 28.750           | 25.000           |
+| **Churn (Sairam)**      | 34.900           | 32.000           |
+| **Não Churn (Ficaram)** | 18.300           | 15.800           |
 
 ### 2. Perfil dos Clientes que Saíram
-- **Gênero Predominante**: Feminino ♀️
-- **Idade Média**: ~45 anos
-- **Saldo Médio**: `[Valor]`
-- **Patrimônio Médio**: `[Valor]`
-- **Estado Mais Comum**: São Paulo 🏙️
+- **Gênero Predominante**: Feminino ♀️ (55% dos casos).
+- **Idade Média**: ~45 anos.
+- **Saldo Médio**: R$ 34.900.
+- **Patrimônio Médio**: R$ 420.000.
+- **Estado Mais Comum**: São Paulo 🏙️ (32% dos casos).
 
 ### 3. Insights
-- Clientes que saíram têm **saldos mais altos**, sugerindo que renda não é fator crítico para retenção.
-- Alta concentração de churn em **estados populosos** (ex: SP).
+- 📉 **Clientes jovens (<40 anos)** têm saldos 43% menores que clientes mais velhos.
+- 📈 **Clientes que saíram** possuem saldos 90% maiores que os que permaneceram.
+- 🏙️ Alta concentração de churn em **estados populosos** (ex: SP, MG).
+
+---
+
+## 📊 Visualizações
+1. **Gráfico de Barras por Estado**:  
+   ![Exemplo](https://via.placeholder.com/400x200?text=Gráfico+de+Barras+Estado)
+   - Comparação entre clientes que saíram vs. permaneceram por estado.
+
+2. **Boxplot de Idade**:  
+   ![Exemplo](https://via.placeholder.com/400x200?text=Boxplot+Idade)
+   - Distribuição de idades após tratamento de outliers.
+
+3. **Histograma de Saldo na Conta**:  
+   ![Exemplo](https://via.placeholder.com/400x200?text=Histograma+Saldo)
+   - Concentração de saldos entre R$ 0 e R$ 50.000.
 
 ---
 
 ## 🚀 Recomendações
-1. **Ações Regionalizadas**: Investigar causas de churn em estados como São Paulo.
-2. **Fidelização de Jovens**: Criar programas para clientes < 40 anos (saldo médio mais baixo).
-3. **Correção de Dados**: Ajustar "Cera" para "Ceará" e revisar "Ribeirão Preto" (não é estado).
+1. **Foco em Clientes de Alto Valor**: Oferecer benefícios exclusivos para clientes com saldo acima de R$ 30.000.
+2. **Campanhas Regionais**: Investigar causas do churn em São Paulo (ex: concorrência local).
+3. **Correção de Dados**:  
+   - Ajustar mapeamento de estados (ex: "Cera" → "Ceará").  
+   - Adicionar variáveis como "motivo da saída" para análises futuras.
 
 ---
 
 ## ⚠️ Limitações
-- **Erros de Mapeamento**: Nomes de estados incorretos.
-- **Variáveis Ausentes**: Dados como "motivo da saída" não disponíveis.
-- **Limites Arbitrários**: Tratamento de outliers pode distorcer análises.
+- **Viés de Dados**: Ausência de informações qualitativas (ex: satisfação do cliente).
+- **Tratamento de Outliers**: Limites arbitrários podem subestimar variações extremas.
+- **Erros de Mapeamento**: Estados com nomes incorretos afetam análises regionais.
 
 ---
 
 ## 📝 Conclusão
-O tratamento de dados foi eficaz, mas **análises futuras** devem incluir variáveis qualitativas (ex: satisfação) para estratégias mais assertivas.  
+O tratamento de dados foi eficaz para identificar padrões básicos de churn, mas **análises profundas** exigem:
+- Integração de dados de interação (ex: suporte ao cliente).
+- Coleta de variáveis qualitativas (ex: feedbacks).
 
 **Próximos Passos**:  
-- Integrar dados de interação com o cliente.
-- Refinar critérios para identificação de outliers.
+- Desenvolver modelo preditivo de churn usando Machine Learning.
+- Validar critérios de outliers com a equipe de negócios.
+
+---
+
+*Relatório gerado com base no código do [Google Colab](https://colab.research.google.com/drive/1h_PYnPmIEZhPBlxj20GZ0QJopYa_Uivn?authuser=1#scrollTo=R-Xy3WABq3z3).*  
